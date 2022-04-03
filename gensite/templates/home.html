@@ -1,0 +1,478 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <!-- Page Content -->
+    <!-- Banner Starts Here -->
+    <div class="main-banner header-text" id="top">
+        <div class="Modern-Slider">
+            {% for i in sliderdata %}
+                <div class="item item-1">
+                    <div class="img-fill">
+                        <img src="{{ i.image.url  }}" alt="">
+                        <div class="text-content">
+                            <h6>we are ready to help you</h6>
+                            <h4>
+                                {{ i.title|striptags }}
+                                <br>
+                                &amp; Consulting
+                            </h4>
+                            <a href="{% url 'contact' %}" class="filled-button">contact us</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+            {% comment %} <img src="../static/assets/images/slide_01.jpg" alt=""> {% endcomment %}
+        </div>
+        <!-- Banner Ends Here -->
+        <div class="feature-sec">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3 col-sm-6">
+                        <div class="feature-item wow animate__animated  animate__jackInTheBox">
+                            <i class="fa fa-phone"></i>
+                            <div class="title-txt">
+                                <h5>OPTICAL FIBRE CONNECTIVITY</h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6">
+                        <div class="feature-item wow animate__animated  animate__jackInTheBox">
+                            <i class="fa fa-globe"></i>
+                            <div class="title-txt">
+                                <h5>NETWORKING SOLUTIONS</h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6">
+                        <div class="feature-item wow animate__animated  animate__jackInTheBox">
+                            <i class="fa fa-mobile"></i>
+                            <div class="title-txt">
+                                <h5>UNDERGROUND POWER CABLING</h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6">
+                        <div class="feature-item wow animate__animated  animate__jackInTheBox">
+                            <i class="fa fa-wrench"></i>
+                            <div class="title-txt">
+                                <h5>SUPPLY & INSTALLATION</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--start aboout us-->
+    <div class="more-info">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="more-info-content wow animate__animated animate__zoomIn">
+                        <div class="row">
+                            <div class="col-md-5">
+                                <div class="left-image">
+                                    <img src="{{ object.image.url }}"  height ="500" alt="">
+                                </div>
+                            </div>
+                            <div class="col-md-7 align-self-center">
+                                <div class="right-content">
+                                    <h1 style=color:tomato;>{{ object.title|upper|striptags }}</h1>
+                                    <br>
+                                    <p>
+                                        {% if object.description %}
+                                            {{ object.description|slice:":577"|striptags }}
+                                        {% else %}
+                                            Description coming soon
+                                        {% endif %}
+                                    </p>
+                                    <a href="{% url 'about' %}" class="filled-button">Read More</a>
+                                    {% if object.files %}
+                                        <a href="{{ object.files.url }}"
+                                           target="blank"
+                                           class="c-profile float-right pt-2">
+                                            Download Compamy Profile &nbsp <i class="fa fa-file-pdf-o"></i>
+                                        </a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--end about us-->
+    <!-- start services-->
+
+    
+    <div class="services">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="section-heading">
+                        <h2>
+                            Our <em>Services</em>
+                        </h2>
+                        <hr width=200px,>
+                        <span>Aliquam id urna imperdiet libero mollis hendrerit</span>
+                    </div>
+                </div>                
+                
+
+
+                {% for i in service_list %}
+                    <div class="col-md-4 col-sm-6">
+                        <div class="service-item wow animate__animated animate__zoomIn">
+                            <a href="{% url 'service-details' id=i.id %}">
+                                {% if i.image.url %}
+                                    <img src="{{ i.image.url }}" width = "350" height ="300"  alt="">
+                                {% else %}
+                                    Image coming soon
+                                {% endif %}
+                            </a>
+                            <div class="down-content">
+                                <h4 style=color:tomato;>{{ i.title }}</h4>
+                                <p>
+                                    {{ i.description|striptags|slice:":125"|safe }}
+                                </p>
+                                <a href="{% url 'service-details' id=i.id %}" class="filled-button">Read More</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %} 
+            </div>
+
+            <a href="{% url 'service' %}" class="float-right pt-2 mb-5">See All <i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
+
+        
+{% comment %} 
+            <div class="pagination ">         
+
+               
+
+                
+                {% if service_list.has_previous %}
+                <a class="btn btn-outline-info mb-4" href="?page=1">&laquo; first</a>
+                <a class="btn btn-outline-info mb-4" href="?service_Home_page={{ service_list.previous_page_number }}">previous</a>
+                {% endif %}
+    
+                    
+
+                {% for num in service_list.paginator.page_range %}
+                    {% if service_list.number == num %}
+                    <a class="btn btn-info mb-4" href="?service_Home_page={{ num }}">&laquo; {{ num }}</a>
+                    {% else %}
+                    <a class="btn btn-outline-info mb-4" href="?service_Home_page={{ num }}">{{ num }}</a>
+                    {% endif %}
+
+                {% endfor %}
+        
+                {% if service_list.has_next %}
+                    <a class="btn btn-outline-info mb-4" href="?service_Home_page={{ service_list.next_page_number }}">next</a>
+                    <a class="btn btn-outline-info mb-4" href="?service_Home_page={{ service_list.paginator.num_pages }}">last &raquo;</a>
+                {% endif %}                   
+                
+          
+        </div>  {% endcomment %}
+        
+
+
+
+
+
+
+
+
+
+
+        </div>
+    </div>
+    <!-- end services-->
+    <div class="fun-facts">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="left-content">
+                        <span>Lorem ipsum dolor sit amet</span>
+                        <h2>
+                            Our solutions for your <em>business growth</em>
+                        </h2>
+                        <p>
+                            Pellentesque ultrices at turpis in vestibulum. Aenean pretium elit nec congue elementum. Nulla luctus laoreet porta. Maecenas at nisi tempus, porta metus vitae, faucibus augue.
+                            <br>
+                            <br>
+                            Fusce et venenatis ex. Quisque varius, velit quis dictum sagittis, odio velit molestie nunc, ut posuere ante tortor ut neque.
+                        </p>
+                        <a href="" class="filled-button">Read More</a>
+                    </div>
+                </div>
+                <div class="col-md-6 align-self-center">
+                    <div class="row">
+                        <div class="col-md-6 col-sm-6">
+                            <div class="count-area-content">
+                                <div class="count-digit">945</div>
+                                <div class="count-title">Work Hours</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-6">
+                            <div class="count-area-content">
+                                <div class="count-digit">1280</div>
+                                <div class="count-title">Great Reviews</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-6">
+                            <div class="count-area-content">
+                                <div class="count-digit">578</div>
+                                <div class="count-title">Projects Done</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-6">
+                            <div class="count-area-content">
+                                <div class="count-digit">26</div>
+                                <div class="count-title">Awards Won</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- <div class="testimonials">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="section-heading">
+              <h2>What they say <em>about us</em></h2>
+              <span>testimonials from our greatest clients</span>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="owl-testimonials owl-carousel">
+              
+              <div class="testimonial-item">
+                <div class="inner-content">
+                  <h4>George Walker</h4>
+                  <span>Chief Financial Analyst</span>
+                  <p>"Nulla ullamcorper, ipsum vel condimentum congue, mi odio vehicula tellus, sit amet malesuada justo sem sit amet quam. Pellentesque in sagittis lacus."</p>
+                </div>
+                <img src="http://placehold.it/60x60" alt="">
+              </div>
+              
+              <div class="testimonial-item">
+                <div class="inner-content">
+                  <h4>John Smith</h4>
+                  <span>Market Specialist</span>
+                  <p>"In eget leo ante. Sed nibh leo, laoreet accumsan euismod quis, scelerisque a nunc. Mauris accumsan, arcu id ornare malesuada, est nulla luctus nisi."</p>
+                </div>
+                <img src="http://placehold.it/60x60" alt="">
+              </div>
+              
+              <div class="testimonial-item">
+                <div class="inner-content">
+                  <h4>David Wood</h4>
+                  <span>Chief Accountant</span>
+                  <p>"Ut ultricies maximus turpis, in sollicitudin ligula posuere vel. Donec finibus maximus neque, vitae egestas quam imperdiet nec. Proin nec mauris eu tortor consectetur tristique."</p>
+                </div>
+                <img src="http://placehold.it/60x60" alt="">
+              </div>
+              
+              <div class="testimonial-item">
+                <div class="inner-content">
+                  <h4>Andrew Boom</h4>
+                  <span>Marketing Head</span>
+                  <p>"Curabitur sollicitudin, tortor at suscipit volutpat, nisi arcu aliquet dui, vitae semper sem turpis quis libero. Quisque vulputate lacinia nisl ac lobortis."</p>
+                </div>
+                <img src="http://placehold.it/60x60" alt="">
+              </div>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+</div> -->
+    <div class="callback-form pb-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="section-heading">
+                        <h2>
+                            Request a <em>call back</em>
+                        </h2>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="contact-form pb-4 wow animate__animated animate__zoomIn">
+                        <form id="contact" action="{% url 'contact' %}" method="post">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-lg-4 col-md-12 col-sm-12">
+                                    <fieldset>
+                                        <input name="name"
+                                               type="text"
+                                               class="form-control"
+                                               id="name"
+                                               placeholder="Full Name"
+                                               required="">
+                                    </fieldset>
+                                </div>
+                                <div class="col-lg-4 col-md-12 col-sm-12">
+                                    <fieldset>
+                                        <input name="email"
+                                               type="text"
+                                               class="form-control"
+                                               id="email"
+                                               pattern="[^ @]*@[^ @]*"
+                                               placeholder="E-Mail Address"
+                                               required="">
+                                    </fieldset>
+                                </div>
+                                <div class="col-lg-4 col-md-12 col-sm-12">
+                                    <fieldset>
+                                        <input name="phone_Number"
+                                               type="number"
+                                               class="form-control"
+                                               id="phone_Number"
+                                               placeholder="Phone number"
+                                               required="">
+                                    </fieldset>
+                                </div>
+                                <div class="col-lg-12">
+                                    <fieldset>
+                                        <textarea name="message"
+                                                  rows="6"
+                                                  class="form-control"
+                                                  id="message"
+                                                  placeholder="Your Message"
+                                                  required=""></textarea>
+                                    </fieldset>
+                                </div>
+                                <div class="col-lg-12">
+                                    <fieldset>
+                                        <button type="submit" id="form-submit" class="border-button">
+                                            Send Message
+                                        </button>
+                                    </fieldset>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- start client area-->
+    <div class="partners pb-5">
+        <div class="section-heading">
+            <h2>
+                Our <em>Client</em>
+            </h2>
+        </div>
+        <div class="container">
+            <div class="row">
+                {% for i in client_list %}
+                <div class="col-md-3">
+                  <div class="clients-item mb-4">
+                    <img src="{{ i.image.url }}"  width = "140" height ="140" alt="">
+                    <div class="down-content">
+                      <p>{{ i.title|striptags }}</p>                
+                    </div>
+                  </div>
+                </div>
+                {% endfor %}
+            </div>
+            <a href="{% url 'client' %}" class="float-right mt-4 mb-5">See All Clients <i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
+            <br><br>
+            {% comment %} 
+            <div class="pagination pt-4">    
+              {% if client_list.has_previous %}
+                <a class="btn btn-outline-info mb-4" href="?page=1">&laquo; first</a>
+                <a class="btn btn-outline-info mb-4" href="?client_Home_page={{ client_list.previous_page_number }}">previous</a>
+              {% endif %}
+              {% for num in client_list.paginator.page_range %}
+                  {% if client_list.number == num %}
+                  <a class="btn btn-info mb-4" href="?page1={{ num }}">&laquo; {{ num }}</a>
+                  {% else %}
+                  <a class="btn btn-outline-info mb-4" href="?client_Home_page={{ num }}">{{ num }}</a>
+                  {% endif %}
+              {% endfor %}
+              {% if client_list.has_next %}
+                  <a class="btn btn-outline-info mb-4" href="?client_Home_page={{ client_list.next_page_number }}">next</a>
+                  <a class="btn btn-outline-info mb-4" href="?client_Home_page={{ client_list.paginator.num_pages }}">last &raquo;</a>
+              {% endif %} 
+            </div>  
+            {% endcomment %}
+            
+            {% comment %} <div class="row">
+                <div class="col-lg-12"> {% endcomment %}
+                    {% comment %} {% if is_paginated %} {% endcomment %}
+                        {% comment %} {% if clients.has_previous %}
+                            <a class="btn btn-outline-info mb-4" href="?page=1">First</a>
+                            <a class="btn btn-outline-info mb-4"
+                               href="?page={{ clients.previous_page_number }}">Previous</a>
+                        {% endif %}
+                        {% for num in clients.paginator.page_range %}
+                            {% if clients.number == num %}
+                                <a class="btn btn-info mb-4" href="?page={{ num }}">{{ num }}</a>
+                            {% elif num > clients.number|add:'-3' and num < clients.number|add:'3' %}
+                                <a class="btn btn-outline-info mb-4" href="?page={{ num }}">{{ num }}</a>
+                            {% endif %}
+                        {% endfor %}
+                        {% if clients.has_next %}
+                            <a class="btn btn-outline-info mb-4 "
+                               href="?page={{ clients.next_page_number }}">Next</a>
+                            <a class="btn btn-outline-info mb-4 "
+                               href="?page={{ clients.paginator.num_pages }}">Last</a>
+                        {% endif %} {% endcomment %}
+                    {% comment %} {% endif %} {% endcomment %}
+                {% comment %} </div> {% endcomment %}
+            {% comment %} </div> {% endcomment %}
+            {% comment %} <div class="col-md-12">
+          <div class="owl-partners owl-carousel wow animate__animated animate__zoomIn">
+
+           
+
+            <div class="partner-item">
+              <img src="{{ i.image.url }}"  width = "140" height ="140" alt="">
+              <div class="down-content">
+                <p style=color:red;>{{ i.title }}</p>                
+              </div>
+            </div>         
+
+
+          </div>
+        </div>
+      </div>
+      
+
+      
+
+      {% endfor %}
+      
+      {{ is_paginated }}
+     <div> {% if is_paginated %}
+
+      {% if client_obj.has_previous %}
+        <a class="btn btn-outline-info mb-4" href="?page=1">First</a>
+        <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+      {% endif %}
+
+      {% for num in client_obj.paginator.page_range %}
+        {% if page_obj.number == num %}
+          <a class="btn btn-info mb-4" href="?page={{ num }}">{{ num }}</a>
+        {% elif num > client_obj.number|add:'-2' and num < client_obj.number|add:'2' %}
+          <a class="btn btn-outline-info mb-4" href="?page={{ num }}">{{ num }}</a>
+        {% endif %}
+      {% endfor %}
+
+      {% if page_obj.has_next %}
+        <a class="btn btn-outline-info mb-4" href="?page={{ client_obj.next_page_number }}">Next</a>
+        <a class="btn btn-outline-info mb-4" href="?page={{ client_obj.paginator.num_pages }}">Last</a>
+      {% endif %}
+
+    {% endif %}
+
+            </div> {% endcomment %}
+        </div>
+    </div>
+{% endblock %}
